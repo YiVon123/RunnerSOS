@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "520791556814",
+    "project_id": "runner-sos-project",
+    "storage_bucket": "runner-sos-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520791556814:android:b67210bcf831e53995869f",
+        "android_client_info": {
+          "package_name": "com.example.runner_sos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYaIv4QVZLVRRSEV4IIlxL06arhiocCCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,55 @@
+lib/
+ ├── main.dart
+ ├── app/
+ │    ├── router.dart
+ │    └── theme.dart
+ │
+ ├── ui/                       ← UI Layer
+ │    ├── runner/
+ │    │     ├── home/
+ │    │     ├── activity/
+ │    │     ├── event/
+ │    │     ├── sos/
+ │    │     └── profile/
+ │    │
+ │    ├── staff/
+ │    │     ├── dashboard/
+ │    │     ├── event/
+ │    │     ├── runner_tracking/
+ │    │     └── sos_management/
+ │
+ ├── viewmodels/              ← ViewModel Layer
+ │    ├── auth_provider.dart
+ │    ├── event_provider.dart
+ │    ├── sos_provider.dart
+ │    └── location_provider.dart
+ │
+ ├── data/                    ← Data Layer
+ │    ├── repositories/
+ │    │     ├── auth_repository.dart
+ │    │     ├── event_repository.dart
+ │    │     ├── sos_repository.dart
+ │    │     └── location_repository.dart
+ │    │
+ │    ├── services/
+ │    │     ├── firestore_service.dart
+ │    │     ├── notification_service.dart
+ │    │     ├── maps_service.dart
+ │    │     ├── gps_service.dart
+ │    │     └── qr_service.dart
+ │
+ ├── models/
+ │    ├── user_model.dart
+ │    ├── event_model.dart
+ │    ├── sos_model.dart
+ │    └── location_model.dart
+ │
+ ├── utils/
+ │    ├── constants.dart
+ │    ├── validators.dart
+ │    └── helpers.dart
+ │
+ └── widgets/
+       ├── button.dart
+       ├── card.dart
+       └── loading.dart
