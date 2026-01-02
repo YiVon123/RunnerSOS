@@ -2,12 +2,11 @@ class AppRoutes {
   // Auth
   static const login = 'login';
   static const register = 'register';
-  static const String forgotPassword = '/forgot-password';
   static const String emailVerification = '/email-verification';
 
   // Dashboards
-  static const runnerDashboard = '/dashboard/runner';
-  static const staffDashboard = '/dashboard/staff';
+  static const runnerHomepage = '/homepage/runner';
+  static const staffHomepage = '/homepage/staff';
 
   // Profile
   static const String profile = '/profile';

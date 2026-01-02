@@ -24,11 +24,6 @@ class AuthService {
     await _auth.signOut();
   }
 
-  // Reset Password
-  Future<void> sendPasswordReset(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
-  }
-
   // Send email verificaton
   Future<void> sendEmailVerification(User user) async {
     if (!user.emailVerified) {
@@ -53,14 +48,6 @@ class AuthService {
 
 
 
-
-  // // Change password
-  // Future<void> changePassword(String newPassword) async {
-  //   final user = _auth.currentUser;
-  //   if (user != null) {
-  //     await user.updatePassword(newPassword);
-  //   }
-  // }
 
   // // Re-authenticate user (required before sensitive operations)
   // Future<void> reauthenticate(String email, String password) async {

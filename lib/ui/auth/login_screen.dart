@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:runner_sos/routes/app_routes.dart';
-import '../../data/services/auth_service.dart';
+import 'package:runner_sos/utils/validators.dart';
 import '../../viewmodels/auth_provider.dart';
-import '../../ui/auth/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,14 +42,22 @@ class _LoginScreenState extends State<LoginScreen> {
               // Email controller
               TextFormField(
                 controller: _emailCtrl,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
                   labelText: "Email",
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
+                  errorMaxLines: 3,
                 ),
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 enabled: !auth.isLoading,
+                validator: (value) {
+                  if (!Validators.isEmailValid(value!)) {
+                    return "Invalid email. The standard format of email is name@domain.com. Please enter a valid email address.";
+                  }
+                  return null;
+                },
               ),
 
               const SizedBox(height: 16),
@@ -58,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Password controller
               TextFormField(
                 controller: _passwordCtrl,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                   labelText: "Password",
                   border: const OutlineInputBorder(),
@@ -74,30 +82,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                   ),
+                  errorMaxLines: 3,
                 ),
                 obscureText: _obscurePassword,
                 textInputAction: TextInputAction.done,
                 enabled: !auth.isLoading,
-                onFieldSubmitted: (_) => _handleLogin(context, auth),
+                validator: (value) {
+                  if (!Validators.isLoginPasswordValid(value!)) {
+                    return "Invalid password. Password must be 8–16 characters long. Please enter a valid password.";
+                  }
+                  return null;
+                },
+                onFieldSubmitted: (_) {
+                  if (_formKey.currentState!.validate()) {
+                    _handleLogin(context, auth);
+                  }
+                },
               ),
 
-              const SizedBox(height: 8),
-
-              // Forgot password
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: auth.isLoading
-                      ? null
-                      : () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.runnerDashboard,
-                          );
-                        },
-                  child: const Text("Forgot Password?dashboard runner"),
-                ),
-              ),
               const SizedBox(height: 16),
 
               // Error message
@@ -131,7 +133,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ElevatedButton(
                   onPressed: auth.isLoading
                       ? null
-                      : () => _handleLogin(context, auth),
+                      : () {
+                          if (_formKey.currentState!.validate()) {
+                            _handleLogin(context, auth);
+                          }
+                        },
                   child: auth.isLoading
                       ? const SizedBox(
                           height: 20,
@@ -157,6 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: auth.isLoading
                         ? null
                         : () {
+                            auth.clearError();
                             Navigator.pushNamed(context, AppRoutes.register);
                           },
                     child: const Text("Register"),

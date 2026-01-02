@@ -18,12 +18,12 @@ class AuthProvider extends ChangeNotifier {
 
     switch (currentUser!.role) {
       case 'runner':
-        return '/dashboard/runner';
+        return '/homepage/runner';
       case 'event_staff':
       case 'medic':
         return '/dashboard/staff';
       default:
-        return '/dashboard/runner';
+        return '/homepage/runner';
     }
   }
 
@@ -35,22 +35,6 @@ class AuthProvider extends ChangeNotifier {
   // Login
   Future<bool> login(String email, String password) async {
     errorMessage = null;
-
-    // Email validation
-    if (!Validators.isEmailValid(email)) {
-      errorMessage =
-          "Invalid email. The standard format of email is name@domain.com. Please enter a valid email address.";
-      notifyListeners();
-      return Future.value(false);
-    }
-
-    // Password validation
-    if (!Validators.isPasswordValid(password)) {
-      errorMessage =
-          "Invalid password. Password must be 8–16 characters long. Please enter a valid password.";
-      notifyListeners();
-      return Future.value(false);
-    }
 
     // Loading ui
     isLoading = true;
@@ -75,12 +59,10 @@ class AuthProvider extends ChangeNotifier {
         final minutes = error.split(':').last;
         errorMessage =
             "Your account has been locked due to multiple failed login attempts. Please try again after $minutes minutes.";
-      } else if (error.contains("not_registered")) {
+      } else if (error.contains("user_not_found")) {
         errorMessage = "Account not found. Please register first.";
-      } else if (error.contains("wrong_password")) {
+      } else if (error.contains("invalid_credentials")) {
         errorMessage = "Invalid email or password. Please try again.";
-      } else {
-        errorMessage = "An error occurred. Please try again.";
       }
 
       notifyListeners();
@@ -95,29 +77,6 @@ class AuthProvider extends ChangeNotifier {
     required String confirmPassword,
   }) async {
     errorMessage = null;
-    // Email validation
-    if (!Validators.isEmailValid(email)) {
-      errorMessage =
-          "Invalid email. The standard format of email is name@domain.com. Please enter a valid email address.";
-      notifyListeners();
-      return Future.value(false);
-    }
-
-    // Password validation
-    if (!Validators.isPasswordValid(password)) {
-      errorMessage =
-          "Invalid password. Password must be 8–16 characters long. Please enter a valid password.";
-      notifyListeners();
-      return Future.value(false);
-    }
-
-    // Password n Confirm Password Validation
-    if (password != confirmPassword) {
-      errorMessage =
-          "The password and confirmed password must be the same. Please try again.";
-      notifyListeners();
-      return Future.value(false);
-    }
 
     // Loading ui
     isLoading = true;
@@ -162,39 +121,6 @@ class AuthProvider extends ChangeNotifier {
 
     isLoading = false;
     notifyListeners();
-  }
-
-  // ========== FORGOT PASSWORD ==========
-  Future<bool> forgotPassword(String email) async {
-    errorMessage = null;
-
-    if (!Validators.isEmailValid(email)) {
-      errorMessage = "Invalid email. Please enter a valid email address.";
-      notifyListeners();
-      return false;
-    }
-
-    isLoading = true;
-    notifyListeners();
-
-    try {
-      await _repo.sendPasswordReset(email);
-      isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      isLoading = false;
-      final error = e.toString();
-
-      if (error.contains("invalid_email")) {
-        errorMessage = "Invalid email format.";
-      } else {
-        errorMessage = "An error occurred. Please try again.";
-      }
-
-      notifyListeners();
-      return false;
-    }
   }
 
   // ========== EMAIL VERIFICATION ==========

@@ -1,6 +1,7 @@
 // lib/ui/auth/register_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:runner_sos/utils/validators.dart';
 import '../../routes/app_routes.dart';
 import '../../viewmodels/auth_provider.dart';
 
@@ -71,21 +72,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // Email field
               TextFormField(
                 controller: _emailCtrl,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
                   labelText: "Email",
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
                   hintText: "example@email.com",
+                  errorMaxLines: 3,
                 ),
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 enabled: !auth.isLoading,
+                validator: (value) {
+                  if (!Validators.isEmailValid(value!)) {
+                    return "Invalid email. The standard format of email is name@domain.com. Please enter a valid email address.";
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
 
               // Password field
               TextFormField(
                 controller: _passwordCtrl,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                   labelText: "Password",
                   border: const OutlineInputBorder(),
@@ -103,16 +113,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   helperText: "8-16 characters",
+                  errorMaxLines: 3,
                 ),
                 obscureText: _obscurePassword,
                 textInputAction: TextInputAction.next,
                 enabled: !auth.isLoading,
+                validator: (value) {
+                  if (!Validators.isRegPasswordValid(value!)) {
+                    return "Invalid password. Password must be 8–16 characters long and include an uppercase letter, a number, and a special character. Please enter a valid password.";
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
 
               // Confirm password field
               TextFormField(
                 controller: _confirmPasswordCtrl,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
                   labelText: "Confirm Password",
                   border: const OutlineInputBorder(),
@@ -129,11 +147,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       });
                     },
                   ),
+                  errorMaxLines: 3,
                 ),
                 obscureText: _obscureConfirmPassword,
                 textInputAction: TextInputAction.done,
                 enabled: !auth.isLoading,
-                onFieldSubmitted: (_) => _handleRegister(context, auth),
+                validator: (value) {
+                  if (value! != _passwordCtrl.text) {
+                    return "The password and confirmed password must be the same. Please try again.";
+                  }
+                  return null;
+                },
+                onFieldSubmitted: (_) {
+                  if (_formKey.currentState!.validate()) {
+                    _handleRegister(context, auth);
+                  }
+                },
               ),
               const SizedBox(height: 24),
 
@@ -168,7 +197,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: ElevatedButton(
                   onPressed: auth.isLoading
                       ? null
-                      : () => _handleRegister(context, auth),
+                      : () {
+                          // Only proceed to AuthProvider if local form is valid
+                          if (_formKey.currentState!.validate()) {
+                            _handleRegister(context, auth);
+                          }
+                        },
                   child: auth.isLoading
                       ? const SizedBox(
                           height: 20,
@@ -194,6 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: auth.isLoading
                         ? null
                         : () {
+                            auth.clearError();
                             Navigator.pushReplacementNamed(
                               context,
                               AppRoutes.login,

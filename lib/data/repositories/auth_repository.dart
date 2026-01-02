@@ -97,7 +97,7 @@ class AuthRepository {
         userCredential.user!.uid,
       );
       if (!userDoc.exists) {
-        throw Exception("user_data_not_found");
+        throw Exception("user_not_found");
       }
 
       final userData = UserModel.fromMap(
@@ -132,22 +132,13 @@ class AuthRepository {
       }
 
       // Use generic error message (security - don't reveal if email exists)
-      if (e.code == 'user-not-found' ||
-          e.code == 'wrong-password' ||
-          e.code == 'invalid-credential' ||
-          e.code == 'invalid-email') {
+      if (e.code == 'user-not-found' || e.code == 'unknown') {
+        throw Exception("user_not_found");
+      } else if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
         throw Exception("invalid_credentials");
       }
 
-      if (e.code == 'network-request-failed') {
-        throw Exception("network_error");
-      }
-
-      if (e.code == 'too-many-requests') {
-        throw Exception("too_many_requests");
-      }
-
-      rethrow;
+      throw Exception("invalid_credentials");
     }
   }
 
@@ -210,12 +201,6 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         throw Exception("email_exists");
-      } else if (e.code == 'weak-password') {
-        throw Exception("weak_password");
-      } else if (e.code == 'invalid-email') {
-        throw Exception("invalid_email");
-      } else if (e.code == 'network-request-failed') {
-        throw Exception("network_error");
       }
       rethrow;
     } catch (e) {
@@ -231,23 +216,6 @@ class AuthRepository {
   Future<void> logout() async {
     await _authService.logout();
     await _clearLockData();
-  }
-
-  // ========== PASSWORD RESET ==========
-  Future<void> sendPasswordReset(String email) async {
-    try {
-      await _authService.sendPasswordReset(email.trim());
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        // Don't reveal if email exists
-        return; // Silently succeed
-      } else if (e.code == 'invalid-email') {
-        throw Exception("invalid_email");
-      } else if (e.code == 'network-request-failed') {
-        throw Exception("network_error");
-      }
-      rethrow;
-    }
   }
 
   // ========== EMAIL VERIFICATION ==========

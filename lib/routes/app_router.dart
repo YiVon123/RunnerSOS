@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:runner_sos/routes/app_routes.dart';
 import 'package:runner_sos/ui/auth/email_verification_screen.dart';
+import 'package:runner_sos/ui/runner/runner_shell.dart';
 import '../ui/auth/login_screen.dart';
 import '../ui/auth/register_screen.dart';
-import '../ui/runner/runner_homepage.dart';
 import '../ui/staff/staff_homepage.dart';
 
 class AppRouter {
@@ -20,10 +20,10 @@ class AppRouter {
           builder: (_) => const EmailVerificationScreen(),
         );
 
-      case AppRoutes.runnerDashboard:
-        return MaterialPageRoute(builder: (_) => const RunnerHomepage());
+      case AppRoutes.runnerHomepage:
+        return MaterialPageRoute(builder: (_) => const RunnerShell());
 
-      case AppRoutes.staffDashboard:
+      case AppRoutes.staffHomepage:
         return MaterialPageRoute(builder: (_) => const StaffHomepage());
       default:
         return MaterialPageRoute(

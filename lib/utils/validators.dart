@@ -2,15 +2,23 @@ class Validators {
   // email validation
   static bool isEmailValid(String email) {
     final emailTrim = email.trim();
-    final regex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+    final regex = RegExp(
+      r"^[\w\.\-\+]+@(gmail\.com|yahoo\.com|hotmail\.com|[\w-]+\.com|[\w-]+\.my|[\w-]+\.com\.my)$",
+    );
     return emailTrim.isNotEmpty &&
         emailTrim.length <= 100 &&
         regex.hasMatch(emailTrim);
   }
 
-  // Password validation
-  static bool isPasswordValid(String password) {
+  // Login Password validation
+  static bool isLoginPasswordValid(String password) {
     return password.length >= 8 && password.length <= 16;
+  }
+
+  // Reg Password validation
+  static bool isRegPasswordValid(String password) {
+    final regex = RegExp(r'^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$&*~.]).{8,16}$');
+    return regex.hasMatch(password);
   }
 
   // phone validation
