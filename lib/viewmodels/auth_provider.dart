@@ -20,8 +20,9 @@ class AuthProvider extends ChangeNotifier {
       case 'runner':
         return '/homepage/runner';
       case 'event_staff':
+        return '/homepage/staff';
       case 'medic':
-        return '/dashboard/staff';
+        return '/homepage/medic';
       default:
         return '/homepage/runner';
     }

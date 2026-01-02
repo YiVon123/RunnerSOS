@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:runner_sos/routes/app_routes.dart';
 import 'package:runner_sos/ui/auth/email_verification_screen.dart';
+import 'package:runner_sos/ui/medic/medic_shell.dart';
 import 'package:runner_sos/ui/runner/runner_shell.dart';
+import 'package:runner_sos/ui/staff/staff_shell.dart';
 import '../ui/auth/login_screen.dart';
 import '../ui/auth/register_screen.dart';
-import '../ui/staff/staff_homepage.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -24,7 +25,11 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const RunnerShell());
 
       case AppRoutes.staffHomepage:
-        return MaterialPageRoute(builder: (_) => const StaffHomepage());
+        return MaterialPageRoute(builder: (_) => const StaffShell());
+
+      case AppRoutes.medicHomepage:
+        return MaterialPageRoute(builder: (_) => const MedicShell());
+
       default:
         return MaterialPageRoute(
           builder: (_) =>

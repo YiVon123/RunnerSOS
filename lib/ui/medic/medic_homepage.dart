@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:runner_sos/widgets/common/app_page.dart';
 
-class RunnerHomepage extends StatefulWidget {
-  const RunnerHomepage({super.key});
+class MedicHomepage extends StatefulWidget {
+  const MedicHomepage({super.key});
 
-  @override
-  State<RunnerHomepage> createState() => _RunnerHomepageState();
+  State<MedicHomepage> createState() => _MedicHomepageState();
 }
 
-class _RunnerHomepageState extends State<RunnerHomepage> {
+class _MedicHomepageState extends State<MedicHomepage> {
   @override
   Widget build(BuildContext context) {
     return AppPage(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text("runner homepage")],
+        children: [Text("medic")],
       ),
     );
   }

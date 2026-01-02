@@ -7,6 +7,7 @@ class AppRoutes {
   // Dashboards
   static const runnerHomepage = '/homepage/runner';
   static const staffHomepage = '/homepage/staff';
+  static const medicHomepage = '/homepage/medic';
 
   // Profile
   static const String profile = '/profile';
