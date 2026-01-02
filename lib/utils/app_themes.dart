@@ -20,11 +20,28 @@ class AppThemes {
       onSecondary: AppColors.background,
       error: Colors.red,
       onError: AppColors.background,
-      surface: AppColors.light,
+      surface: AppColors.background,
       onSurface: AppColors.button,
     ),
 
     scaffoldBackgroundColor: AppColors.background,
+
+    // AppBar theme
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.background,
+      foregroundColor: AppColors.button, // Icon and text color
+      elevation: 0,
+      centerTitle: false,
+    ),
+
+    // Bottom Navigation Bar theme
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: AppColors.background,
+      selectedItemColor: AppColors.button,
+      unselectedItemColor: AppColors.medium,
+      type: BottomNavigationBarType.fixed,
+      elevation: 8,
+    ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
