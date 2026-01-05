@@ -164,7 +164,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ? null
                         : () {
                             auth.clearError();
-                            Navigator.pushNamed(context, AppRoutes.register);
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRoutes.register,
+                            );
                           },
                     child: const Text("Register"),
                   ),
